@@ -53,8 +53,14 @@ module platter(height, width, depth, t) {
     }
 }
 
+module backing(height, width, depth) {
+    cube([width, depth, height], center = true);
+}
+
 
 module shelf(height, width, depth, t, rows, sep) {
+    backing(height = (rows * sep), width = width[0], depth = 4);
+
     for(i = [0:rows - 1]) {
         translate([0, 0, i * sep]) {
             platter(height = height, width = width, depth = depth, t = t);
@@ -71,7 +77,5 @@ shelf(
     rows = ROWS,
     sep = SEP
 );
-
-
 
 
