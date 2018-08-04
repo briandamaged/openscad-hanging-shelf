@@ -52,13 +52,22 @@ module platter(height, width, depth, t) {
 }
 
 module backing(height, width, depth) {
-    holes = 1;
+    holes = 3;
 
-    
+    hole_pre_width = width / holes;
+    hole_width = hole_pre_width - (depth * 2);
 
     difference() {
         cube([width, depth, height], center = true);
-        cube([width - (depth * 2), depth + 1, height - (depth * 2)], center = true);
+        translate([-(width - hole_pre_width) / 2, 0, 0]) {
+
+            for(i = [0:holes - 1]) {
+                translate([i * hole_pre_width, 0, 0]) {
+                    cube([hole_width, depth + 1, height - (depth * 2)], center = true);                
+                }
+            }
+            
+        }
     }
 }
 
