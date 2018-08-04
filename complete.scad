@@ -3,15 +3,13 @@ ROWS = 2;
 SEP = 40;
 
 SHELF_THICKNESS = 5;
-_SHELF_WIDTH = 80;
-_SHELF_DEPTH = 40;
+SHELF_LIP = 5;
+SHELF_WIDTH = 80;
+SHELF_DEPTH = 40;
 
 
 // Derived properties
 SHELF_HEIGHT = SHELF_THICKNESS + 2;
-SHELF_WIDTH = [_SHELF_WIDTH, _SHELF_WIDTH + 10];
-SHELF_DEPTH = [_SHELF_DEPTH, _SHELF_DEPTH + 10];
-
 
 
 function is_vector(thing) = (
@@ -58,14 +56,24 @@ module backing(height, width, depth) {
 }
 
 
-module shelf(height, width, depth, t, rows, sep) {
-    backing(height = (rows * sep), width = width[0], depth = 4);
+module shelf(height, width, depth, t, lip, rows, sep) {
+    backing_height = ((rows - 0.5) * sep);
+    translate([0, 0, backing_height / 2]) {
+        backing(height = backing_height, width = width, depth = 4);        
+    }
 
-    for(i = [0:rows - 1]) {
-        translate([0, 0, i * sep]) {
-            platter(height = height, width = width, depth = depth, t = t);
+
+    platter_width = [width, width + lip];
+    platter_depth = [depth, depth + lip];
+
+    translate([0, -depth / 2, 0]) {
+        for(i = [0:rows - 1]) {
+            translate([0, 0, i * sep]) {
+                platter(height = height, width = platter_width, depth = platter_depth, t = t);
+            }
         }
     }
+
 }
 
 
@@ -74,6 +82,7 @@ shelf(
     width = SHELF_WIDTH,
     depth = SHELF_DEPTH,
     t = SHELF_THICKNESS,
+    lip = SHELF_LIP,
     rows = ROWS,
     sep = SEP
 );
