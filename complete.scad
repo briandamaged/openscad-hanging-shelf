@@ -1,16 +1,17 @@
 
-SHELF_THICKNESS = 5;
-SHELF_HEIGHT = SHELF_THICKNESS + 2;
-
-
-SHELF_BOTTOM_DEPTH = 40;
-SHELF_TOP_DEPTH = SHELF_BOTTOM_DEPTH + 10;
-
-SHELF_BOTTOM_WIDTH = 80;
-SHELF_TOP_WIDTH = SHELF_BOTTOM_WIDTH + 10;
-
 ROWS = 2;
 SEP = 40;
+
+SHELF_THICKNESS = 5;
+_SHELF_WIDTH = 80;
+_SHELF_DEPTH = 40;
+
+
+// Derived properties
+SHELF_HEIGHT = SHELF_THICKNESS + 2;
+SHELF_WIDTH = [_SHELF_WIDTH, _SHELF_WIDTH + 10];
+SHELF_DEPTH = [_SHELF_DEPTH, _SHELF_DEPTH + 10];
+
 
 
 function is_vector(thing) = (
@@ -64,8 +65,8 @@ module shelf(height, width, depth, t, rows, sep) {
 
 shelf(
     height = SHELF_HEIGHT,
-    width = [SHELF_BOTTOM_WIDTH, SHELF_TOP_WIDTH],
-    depth = [SHELF_BOTTOM_DEPTH, SHELF_TOP_DEPTH],
+    width = SHELF_WIDTH,
+    depth = SHELF_DEPTH,
     t = SHELF_THICKNESS,
     rows = ROWS,
     sep = SEP
