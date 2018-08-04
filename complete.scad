@@ -9,6 +9,9 @@ SHELF_TOP_DEPTH = SHELF_BOTTOM_DEPTH + 10;
 SHELF_BOTTOM_WIDTH = 80;
 SHELF_TOP_WIDTH = SHELF_BOTTOM_WIDTH + 10;
 
+ROWS = 2;
+SEP = 40;
+
 
 function is_vector(thing) = (
     thing[0] == thing[0] && len(thing) != undef
@@ -39,7 +42,7 @@ module wedge(height, width, depth) {
 
 
 
-module shelf(height, width, depth, t) {
+module platter(height, width, depth, t) {
     difference() {
         wedge(height = height, width = width, depth = depth);
         
@@ -50,14 +53,23 @@ module shelf(height, width, depth, t) {
 }
 
 
+module shelf(height, width, depth, t, rows, sep) {
+    for(i = [0:rows - 1]) {
+        translate([0, 0, i * sep]) {
+            platter(height = height, width = width, depth = depth, t = t);
+        }
+    }
+}
+
 
 shelf(
     height = SHELF_HEIGHT,
     width = [SHELF_BOTTOM_WIDTH, SHELF_TOP_WIDTH],
     depth = [SHELF_BOTTOM_DEPTH, SHELF_TOP_DEPTH],
-    t = SHELF_THICKNESS
+    t = SHELF_THICKNESS,
+    rows = ROWS,
+    sep = SEP
 );
-
 
 
 
