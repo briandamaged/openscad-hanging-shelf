@@ -38,12 +38,23 @@ module wedge(height, width, depth) {
 
 
 
+module shelf(height, width, depth, t) {
+    difference() {
+        wedge(height = height, width = width, depth = depth);
+        
+        translate([0, 0, t]) {
+            wedge(height = height, width = width, depth = depth);
+        }
+    }
+}
 
 
-wedge(
+
+shelf(
     height = SHELF_HEIGHT,
     width = [SHELF_BOTTOM_WIDTH, SHELF_TOP_WIDTH],
-    depth = [SHELF_BOTTOM_DEPTH, SHELF_TOP_DEPTH]
+    depth = [SHELF_BOTTOM_DEPTH, SHELF_TOP_DEPTH],
+    t = SHELF_THICKNESS
 );
 
 
