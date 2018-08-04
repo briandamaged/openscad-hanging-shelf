@@ -9,10 +9,24 @@ SHELF_TOP_DEPTH = SHELF_BOTTOM_DEPTH + 4;
 SHELF_TOP_WIDTH = SHELF_BOTTOM_WIDTH + 4;
 
 
+function is_vector(thing) = (
+    thing[0] == thing[0] && len(thing) != undef
+);
+
+function to_coord(thing) = (
+    is_vector(thing) ? thing : [thing, thing]
+);
 
 
+module wedge(height, width, depth) {
+    _width = to_coord(width);
+    _depth =  to_coord(depth);
 
-module wedge(height, bottom_width, top_width, bottom_depth, top_depth) {
+    bottom_width = _width[0];
+    top_width = _width[1];
+    
+    bottom_depth = _depth[0];
+    top_depth = _depth[1];
 
     s_w = (top_width / bottom_width);
     s_d = (top_depth / bottom_depth);
@@ -23,14 +37,16 @@ module wedge(height, bottom_width, top_width, bottom_depth, top_depth) {
 }
 
 
+
+
+
 wedge(
     height = SHELF_HEIGHT,
-    bottom_width = SHELF_BOTTOM_WIDTH,
-    top_width = SHELF_TOP_WIDTH,
-
-    bottom_depth = SHELF_BOTTOM_DEPTH,
-    top_depth = SHELF_TOP_DEPTH
+    width = [SHELF_BOTTOM_WIDTH, SHELF_TOP_WIDTH],
+    depth = [SHELF_BOTTOM_DEPTH, SHELF_TOP_DEPTH]
 );
+
+
 
 
 
