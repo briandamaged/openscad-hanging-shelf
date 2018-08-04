@@ -52,21 +52,29 @@ module platter(height, width, depth, t) {
 }
 
 module backing(height, width, depth) {
-    cube([width, depth, height], center = true);
+    holes = 1;
+
+    
+
+    difference() {
+        cube([width, depth, height], center = true);
+        cube([width - (depth * 2), depth + 1, height - (depth * 2)], center = true);
+    }
 }
 
 
 module shelf(height, width, depth, t, lip, rows, sep) {
     backing_height = ((rows - 0.5) * sep);
-    translate([0, 0, backing_height / 2]) {
-        backing(height = backing_height, width = width, depth = 4);        
+
+    translate([0, -2, (backing_height) / 2]) {
+        backing(height = backing_height, width = width + lip, depth = 4);
     }
 
 
     platter_width = [width, width + lip];
     platter_depth = [depth, depth + lip];
 
-    translate([0, -depth / 2, 0]) {
+    translate([0, -(depth + lip) / 2, height / 2]) {
         for(i = [0:rows - 1]) {
             translate([0, 0, i * sep]) {
                 platter(height = height, width = platter_width, depth = platter_depth, t = t);
